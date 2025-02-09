@@ -1,91 +1,88 @@
+/* General Styles */
 body {
     font-family: 'Roboto', sans-serif;
-    margin: 20px;
-    background-color: #f2f3f5;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
     color: #333;
     line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
+/* Header */
 header {
     text-align: center;
-    padding: 20px;
-    background: linear-gradient(135deg, #6f8fa9, #45668e);
-    color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
+    padding: 20px 0;
+    border-bottom: 1px solid #ddd;
 }
 
-header:hover {
-    transform: scale(1.02);
+header h1 {
+    font-size: 1.8em;
+    margin: 0;
+    color: #222;
 }
 
+header p {
+    font-size: 1em;
+    color: #666;
+}
+
+/* Section */
 section {
     margin: 20px 0;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease;
+    padding: 0;
 }
 
-section:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-h1, h2 {
-    color: #45668e;
+section h2 {
+    font-size: 1.4em;
     margin-bottom: 10px;
+    color: #222;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
 }
 
-p {
-    margin-bottom: 15px;
+section p, section ul {
+    margin: 10px 0;
+    padding: 0;
 }
 
 ul {
     list-style-type: none;
-    padding: 0;
+    padding-left: 0;
 }
 
 li {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     padding-left: 20px;
     position: relative;
 }
 
 li::before {
     content: "•";
-    color: #45668e;
-    font-size: 1.2em;
+    color: #666;
     position: absolute;
     left: 0;
     top: 0;
 }
 
+/* Links */
 a {
-    color: #e74c3c;
+    color: #007BFF;
     text-decoration: none;
-    font-weight: 700;
-    transition: color 0.3s ease, text-decoration 0.3s ease;
 }
 
 a:hover {
-    color: #c0392b;
     text-decoration: underline;
 }
 
+/* Footer */
 footer {
     text-align: center;
     margin-top: 20px;
-    padding: 15px;
-    background: linear-gradient(135deg, #6f8fa9, #45668e);
-    color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px 0;
     font-size: 0.9em;
-}
-
-footer:hover {
-    transform: scale(1.02);
-    transition: transform 0.3s ease;
+    color: #666;
+    border-top: 1px solid #ddd;
 }

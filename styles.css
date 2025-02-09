@@ -3,8 +3,8 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
-    color: #333;
+    background-color: #ffffff; /* Classic white background */
+    color: #333333; /* Neutral dark gray for text */
     line-height: 1.6;
     max-width: 800px;
     margin: 0 auto;
@@ -15,18 +15,18 @@ body {
 header {
     text-align: center;
     padding: 20px 0;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #cccccc; /* Light gray for subtle separation */
 }
 
 header h1 {
     font-size: 1.8em;
     margin: 0;
-    color: #222;
+    color: #000000; /* Black for strong emphasis */
 }
 
 header p {
     font-size: 1em;
-    color: #666;
+    color: #555555; /* Medium gray for secondary text */
 }
 
 /* Section */
@@ -38,8 +38,8 @@ section {
 section h2 {
     font-size: 1.4em;
     margin-bottom: 10px;
-    color: #222;
-    border-bottom: 1px solid #ddd;
+    color: #000000; /* Black for headings */
+    border-bottom: 1px solid #cccccc; /* Light gray for subtle separation */
     padding-bottom: 5px;
 }
 
@@ -61,7 +61,7 @@ li {
 
 li::before {
     content: "•";
-    color: #666;
+    color: #555555; /* Medium gray for bullet points */
     position: absolute;
     left: 0;
     top: 0;
@@ -69,7 +69,7 @@ li::before {
 
 /* Links */
 a {
-    color: #007BFF;
+    color: #000080; /* Navy blue for a classic link color */
     text-decoration: none;
 }
 
@@ -83,6 +83,6 @@ footer {
     margin-top: 20px;
     padding: 10px 0;
     font-size: 0.9em;
-    color: #666;
-    border-top: 1px solid #ddd;
+    color: #555555; /* Medium gray for footer text */
+    border-top: 1px solid #cccccc; /* Light gray for subtle separation */
 }

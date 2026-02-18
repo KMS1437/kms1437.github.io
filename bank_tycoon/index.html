@@ -5,322 +5,234 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Relaxing Bank Tycoon</title>
 
-<!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-<!-- Font Awesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
 <style>
-body{
-  margin:0;
-  font-family:'Poppins',sans-serif;
-  background:#f9f1e0;
-  color:#4a3f35;
-}
-.topbar{
-  background:#fff7e6;
-  padding:10px;
-  display:flex;
-  justify-content:space-around;
-  box-shadow:0 2px 6px rgba(0,0,0,0.1);
-  flex-wrap:wrap;
-}
-.stat{margin:5px 10px;font-weight:600;}
-
-.container{display:flex;flex-wrap:wrap;padding:10px;}
-
-.visual{
-  flex:1 1 250px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-}
-.bank{
-  width:180px;
-  height:140px;
-  background:#d4af37;
-  border-radius:20px;
-  position:relative;
-  box-shadow:0 8px 20px rgba(0,0,0,0.15);
-  transition:all .5s;
-}
-.window{
-  width:30px;height:30px;background:#fff7e6;border-radius:6px;
-  position:absolute;top:20px;
-}
-.w1{left:20px;} .w2{right:20px;}
-.door{
-  width:40px;height:60px;background:#b7d7b0;border-radius:8px;
-  position:absolute;bottom:0;left:50%;transform:translateX(-50%);
-}
-
-.panels{flex:2 1 400px;padding:10px;}
-
-.panel{
-  background:#fff7e6;
-  border-radius:16px;
-  padding:12px;
-  margin-bottom:10px;
-  box-shadow:0 3px 8px rgba(0,0,0,0.08);
-}
-button{
-  background:#d4af37;border:none;color:#fff;padding:6px 10px;
-  border-radius:8px;margin:3px;cursor:pointer;
-}
+body{margin:0;font-family:'Poppins',sans-serif;background:#f9f1e0;color:#4a3f35}
+.topbar{background:#fff7e6;padding:10px;display:flex;justify-content:space-around;flex-wrap:wrap;box-shadow:0 2px 6px rgba(0,0,0,0.1)}
+.stat{margin:5px 10px;font-weight:600}
+.container{display:flex;flex-wrap:wrap;padding:10px}
+.visual{flex:1 1 250px;display:flex;align-items:center;justify-content:center;padding:20px}
+.bank{width:180px;height:140px;background:#d4af37;border-radius:20px;position:relative;box-shadow:0 8px 20px rgba(0,0,0,0.15);transition:.5s}
+.window{width:30px;height:30px;background:#fff7e6;border-radius:6px;position:absolute;top:20px}
+.w1{left:20px}.w2{right:20px}
+.door{width:40px;height:60px;background:#b7d7b0;border-radius:8px;position:absolute;bottom:0;left:50%;transform:translateX(-50%)}
+.panels{flex:2 1 400px;padding:10px}
+.panel{background:#fff7e6;border-radius:16px;padding:12px;margin-bottom:10px;box-shadow:0 3px 8px rgba(0,0,0,0.08)}
+button{background:#d4af37;border:none;color:#fff;padding:6px 10px;border-radius:8px;margin:3px;cursor:pointer}
 button:hover{opacity:.85}
-.small{font-size:0.9em;color:#6a5a4a}
-
-@media(max-width:700px){
-  .container{flex-direction:column}
-}
+select{padding:5px;border-radius:6px}
+.small{font-size:.85em;color:#6a5a4a}
 </style>
 </head>
 <body>
 
+<audio id="music" loop></audio>
+
 <div class="topbar">
-  <div class="stat">💰 Cash: $<span id="cash">0</span></div>
-  <div class="stat">🏦 Deposits: $<span id="deposits">0</span></div>
-  <div class="stat">📄 Loans: $<span id="loans">0</span></div>
-  <div class="stat">🤝 Trust: <span id="trust">0</span>%</div>
-  <div class="stat">⭐ Prestige: <span id="prestige">0</span></div>
+<div class="stat">💰 <span data-i="cash"></span>: $<span id="cash">0</span></div>
+<div class="stat">🏦 <span data-i="deposits"></span>: $<span id="deposits">0</span></div>
+<div class="stat">📄 <span data-i="loans"></span>: $<span id="loans">0</span></div>
+<div class="stat">🤝 <span data-i="trust"></span>: <span id="trust">0</span>%</div>
+<div class="stat">⭐ <span data-i="prestige"></span>: <span id="prestige">0</span></div>
 </div>
 
 <div class="container">
+<div class="visual">
+<div class="bank" id="bank">
+<div class="window w1"></div>
+<div class="window w2"></div>
+<div class="door"></div>
+</div>
+</div>
 
-  <div class="visual">
-    <div class="bank" id="bank">
-      <div class="window w1"></div>
-      <div class="window w2"></div>
-      <div class="door"></div>
-    </div>
-  </div>
+<div class="panels">
 
-  <div class="panels">
+<div class="panel">
+<h3 data-i="settings"></h3>
+<label data-i="language"></label>
+<select id="langSelect">
+<option value="en">English</option>
+<option value="ru">Русский</option>
+</select>
+<br><br>
+<label data-i="music"></label>
+<select id="musicSelect">
+<option value="off">Off</option>
+<option value="lofi">Lo-Fi</option>
+<option value="acoustic">Acoustic</option>
+</select>
+</div>
 
-    <div class="panel">
-      <h3>Rates</h3>
-      Deposit Rate: <input type="range" id="depositRate" min="1" max="10" step="0.1"> <span id="depositRateVal"></span>%<br>
-      Loan Rate: <input type="range" id="loanRate" min="3" max="15" step="0.1"> <span id="loanRateVal"></span>%<br>
-      Risk Tolerance: <input type="range" id="risk" min="0" max="100"> <span id="riskVal"></span>%
-    </div>
+<div class="panel">
+<h3 data-i="rates"></h3>
+<span data-i="depositRate"></span>
+<input type="range" id="depositRate" min="1" max="10" step="0.1">
+<span id="depositRateVal"></span>%<br>
+<span data-i="loanRate"></span>
+<input type="range" id="loanRate" min="3" max="15" step="0.1">
+<span id="loanRateVal"></span>%<br>
+<span data-i="risk"></span>
+<input type="range" id="risk" min="0" max="100">
+<span id="riskVal"></span>%
+</div>
 
-    <div class="panel">
-      <h3>Manual Actions</h3>
-      <button onclick="manualDeposit()">Attract Depositor</button>
-      <button onclick="manualLoan()">Approve Loan</button>
-    </div>
+<div class="panel">
+<h3 data-i="actions"></h3>
+<button onclick="manualDeposit()" data-i="attract"></button>
+<button onclick="manualLoan()" data-i="approve"></button>
+</div>
 
-    <div class="panel">
-      <h3>Staff</h3>
-      <div id="staffPanel"></div>
-    </div>
+<div class="panel">
+<h3 data-i="staff"></h3>
+<div id="staffPanel"></div>
+</div>
 
-    <div class="panel">
-      <h3>Upgrades</h3>
-      <button onclick="upgrade('safe')">Upgrade Safe ($<span id="safeCost">200</span>)</button>
-      <button onclick="upgrade('lobby')">Upgrade Lobby ($<span id="lobbyCost">150</span>)</button>
-      <button onclick="upgrade('design')">Interior Design ($<span id="designCost">150</span>)</button>
-    </div>
+<div class="panel">
+<h3 data-i="branches"></h3>
+<button onclick="buyBranch()"><span data-i="openBranch"></span> ($<span id="branchCost">1000</span>)</button>
+<span data-i="owned"></span>: <span id="branchCount">0</span>
+</div>
 
-    <div class="panel">
-      <h3>Branches</h3>
-      <button onclick="buyBranch()">Open Branch ($<span id="branchCost">1000</span>)</button>
-      Owned: <span id="branchCount">0</span>
-    </div>
+<div class="panel">
+<h3 data-i="prestigeTitle"></h3>
+<button onclick="prestige()" data-i="prestigeBtn"></button>
+<div class="small" data-i="prestigeInfo"></div>
+</div>
 
-    <div class="panel">
-      <h3>Prestige</h3>
-      <button onclick="prestige()">Rebrand Bank</button>
-      <div class="small">Each token gives +2% income</div>
-    </div>
-
-    <div class="panel">
-      <h3>Stats</h3>
-      Income/sec: $<span id="income">0</span><br>
-      Margin: <span id="margin">0</span>%
-    </div>
-
-  </div>
+</div>
 </div>
 
 <script>
-// ---------- GAME STATE ----------
-let game={
- cash:100,
- deposits:0,
- loans:0,
- trust:100,
- risk:20,
- depositRate:3,
- loanRate:7,
- prestigeTokens:0,
- staff:{
-  teller:{count:0,cost:50,gen:0.5},
-  loan:{count:0,cost:75,gen:0.3},
-  guard:{count:0,cost:100,eff:0.02},
-  analyst:{count:0,cost:120,eff:0.05}
+// ---------- TRANSLATIONS ----------
+const i18n={
+ en:{
+  cash:"Cash",deposits:"Deposits",loans:"Loans",trust:"Trust",prestige:"Prestige",
+  settings:"Settings",language:"Language:",music:"Music:",
+  rates:"Rates",depositRate:"Deposit Rate",loanRate:"Loan Rate",risk:"Risk",
+  actions:"Actions",attract:"Attract Depositor",approve:"Approve Loan",
+  staff:"Staff",branches:"Branches",openBranch:"Open Branch",
+  owned:"Owned",prestigeTitle:"Prestige",prestigeBtn:"Rebrand Bank",
+  prestigeInfo:"Each token gives +2% income"
  },
- upgrades:{safe:1,lobby:1,design:1},
- branches:0,
- lastSaved:Date.now()
+ ru:{
+  cash:"Наличные",deposits:"Депозиты",loans:"Кредиты",trust:"Доверие",prestige:"Престиж",
+  settings:"Настройки",language:"Язык:",music:"Музыка:",
+  rates:"Ставки",depositRate:"Ставка депозита",loanRate:"Ставка кредита",risk:"Риск",
+  actions:"Действия",attract:"Привлечь вкладчика",approve:"Выдать кредит",
+  staff:"Персонал",branches:"Филиалы",openBranch:"Открыть филиал",
+  owned:"Всего",prestigeTitle:"Престиж",prestigeBtn:"Ребрендинг",
+  prestigeInfo:"Каждый токен даёт +2% дохода"
+ }
 };
 
-// ---------- HELPERS ----------
-function format(n){return n.toFixed(2)}
-function efficiency(){
- return 1 + game.staff.analyst.count*game.staff.analyst.eff + game.prestigeTokens*0.02
+let settings={lang:"en",music:"off"};
+
+// ---------- GAME STATE ----------
+let game={cash:100,deposits:0,loans:0,trust:100,risk:20,depositRate:3,loanRate:7,prestigeTokens:0,
+ staff:{teller:{count:0,cost:50,gen:0.5},loan:{count:0,cost:75,gen:0.3}},
+ branches:0,lastSaved:Date.now()};
+
+// ---------- LANGUAGE ----------
+function applyLang(){
+ document.querySelectorAll("[data-i]").forEach(el=>{
+  el.textContent=i18n[settings.lang][el.dataset.i];
+ });
 }
-function branchMult(){return 1 + game.branches*0.25}
+
+// ---------- MUSIC ----------
+const musicEl=document.getElementById("music");
+function updateMusic(){
+ if(settings.music==="off"){musicEl.pause();return;}
+ musicEl.src=settings.music==="lofi"
+  ?"https://cdn.pixabay.com/download/audio/2022/03/15/audio_5b0d6c1d8a.mp3"
+  :"https://cdn.pixabay.com/download/audio/2022/03/10/audio_c8a1a7.mp3";
+ musicEl.volume=0.3;
+ musicEl.play().catch(()=>{});
+}
+
+// ---------- HELPERS ----------
+function f(n){return n.toFixed(2)}
+function branchMult(){return 1+game.branches*0.25}
 
 // ---------- UI ----------
 function updateUI(){
- cash.textContent=format(game.cash);
- deposits.textContent=format(game.deposits);
- loans.textContent=format(game.loans);
- trust.textContent=format(game.trust);
+ cash.textContent=f(game.cash);
+ deposits.textContent=f(game.deposits);
+ loans.textContent=f(game.loans);
+ trust.textContent=f(game.trust);
  prestige.textContent=game.prestigeTokens;
  depositRateVal.textContent=game.depositRate;
  loanRateVal.textContent=game.loanRate;
  riskVal.textContent=game.risk;
- margin.textContent=(game.loanRate-game.depositRate).toFixed(1);
-
  branchCount.textContent=game.branches;
-
- let income = (game.loans*game.loanRate/100 - game.deposits*game.depositRate/100)/60;
- income*=branchMult()*(1+game.prestigeTokens*0.02);
- document.getElementById("income").textContent=format(income);
-
- bank.style.transform=`scale(${1+game.branches*0.05})`
 }
 
 // ---------- GAME LOOP ----------
-function tick(seconds=1){
- let eff=efficiency()*branchMult();
- game.deposits += game.staff.teller.count*game.staff.teller.gen*eff*seconds;
- game.loans += game.staff.loan.count*game.staff.loan.gen*eff*seconds;
+function tick(sec=1){
+ game.deposits+=game.staff.teller.count*0.5*sec;
+ game.loans+=game.staff.loan.count*0.3*sec;
 
- // interest
- let interestIncome = game.loans*(game.loanRate/100)/60*seconds;
- let interestExpense = game.deposits*(game.depositRate/100)/60*seconds;
- let profit = (interestIncome-interestExpense)*(1+game.prestigeTokens*0.02);
-
- game.cash += profit;
-
- // defaults (rare)
- let defaultLoss = game.loans*(game.risk/100)*0.00005*seconds*(1-game.staff.guard.count*0.05);
- if(defaultLoss>0){
-  game.loans -= defaultLoss;
-  game.trust -= defaultLoss*0.01;
- }
-
- game.trust=Math.max(0,Math.min(100,game.trust+0.02*seconds));
+ let profit=(game.loans*game.loanRate/100 - game.deposits*game.depositRate/100)/60;
+ game.cash+=profit*(1+game.prestigeTokens*0.02)*branchMult()*sec;
 
  updateUI();
 }
 
 // ---------- ACTIONS ----------
-function manualDeposit(){
- if(game.cash>=1){
-  game.cash-=1;
-  game.deposits+=5;
- }
-}
-function manualLoan(){
- if(game.cash>=2){
-  game.loans+=5;
- }
-}
-
+function manualDeposit(){if(game.cash>=1){game.cash-=1;game.deposits+=5}}
+function manualLoan(){game.loans+=5}
 function hire(type){
  let s=game.staff[type];
- if(game.cash>=s.cost){
-  game.cash-=s.cost;
-  s.count++;
-  s.cost=Math.round(s.cost*1.15);
-  renderStaff();
- }
+ if(game.cash>=s.cost){game.cash-=s.cost;s.count++;s.cost*=1.15;renderStaff();}
 }
-
 function renderStaff(){
- let html="";
+ staffPanel.innerHTML="";
  for(let k in game.staff){
   let s=game.staff[k];
-  html+=`<div>
-   ${k} (${s.count}) 
-   <button onclick="hire('${k}')">Hire $${s.cost}</button>
-  </div>`
- }
- staffPanel.innerHTML=html;
-}
-
-function upgrade(type){
- let cost = game.upgrades[type]*150+50;
- if(game.cash>=cost){
-  game.cash-=cost;
-  game.upgrades[type]++;
+  staffPanel.innerHTML+=`${k} (${s.count}) <button onclick="hire('${k}')">$${Math.round(s.cost)}</button><br>`;
  }
 }
-
 function buyBranch(){
- let cost = 1000*Math.pow(1.5,game.branches);
- if(game.cash>=cost){
-  game.cash-=cost;
-  game.branches++;
- }
+ let cost=1000*Math.pow(1.5,game.branches);
+ if(game.cash>=cost){game.cash-=cost;game.branches++}
 }
-
 function prestige(){
- if(confirm("Reset progress for a prestige token?")){
-  game={
-   cash:100,
-   deposits:0,
-   loans:0,
-   trust:100,
-   risk:20,
-   depositRate:3,
-   loanRate:7,
-   prestigeTokens:game.prestigeTokens+1,
-   staff:{
-    teller:{count:0,cost:50,gen:0.5},
-    loan:{count:0,cost:75,gen:0.3},
-    guard:{count:0,cost:100,eff:0.02},
-    analyst:{count:0,cost:120,eff:0.05}
-   },
-   upgrades:{safe:1,lobby:1,design:1},
-   branches:0,
-   lastSaved:Date.now()
-  };
+ if(confirm("Prestige?")){
+  game={cash:100,deposits:0,loans:0,trust:100,risk:20,depositRate:3,loanRate:7,
+  prestigeTokens:game.prestigeTokens+1,staff:{teller:{count:0,cost:50},loan:{count:0,cost:75}},
+  branches:0,lastSaved:Date.now()}
  }
 }
 
-// ---------- SAVE / LOAD ----------
-function saveGame(){
- game.lastSaved=Date.now();
+// ---------- SAVE ----------
+function save(){
  localStorage.setItem("bankGame",JSON.stringify(game));
+ localStorage.setItem("bankSettings",JSON.stringify(settings));
 }
-function loadGame(){
- let data=localStorage.getItem("bankGame");
- if(data){
-  game=JSON.parse(data);
-  let diff=(Date.now()-game.lastSaved)/1000;
-  diff=Math.min(diff,3600);
-  tick(diff);
- }
+function load(){
+ let g=localStorage.getItem("bankGame");
+ if(g) game=JSON.parse(g);
+ let s=localStorage.getItem("bankSettings");
+ if(s) settings=JSON.parse(s);
 }
 
 // ---------- EVENTS ----------
+langSelect.onchange=e=>{settings.lang=e.target.value;applyLang();save();}
+musicSelect.onchange=e=>{settings.music=e.target.value;updateMusic();save();}
 depositRate.oninput=e=>game.depositRate=parseFloat(e.target.value);
 loanRate.oninput=e=>game.loanRate=parseFloat(e.target.value);
 risk.oninput=e=>game.risk=parseFloat(e.target.value);
 
 // ---------- INIT ----------
-loadGame();
+load();
+langSelect.value=settings.lang;
+musicSelect.value=settings.music;
+applyLang();
+updateMusic();
 renderStaff();
 updateUI();
-setInterval(()=>{tick(1);saveGame()},1000);
-
+setInterval(()=>{tick(1);save()},1000);
 </script>
 </body>
 </html>
